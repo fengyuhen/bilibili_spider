@@ -12,7 +12,7 @@ from mysql.connector import connect
 class BilibiliPipeline:
     def process_item(self, item, spider):
         mydb = connect(
-            host='127.0.0.1', user='spider', password='Spider123...', db='bilibili_spider'
+            host='', user='', password='', db='bilibili_spider'
         )
         sql_insert_1 = '''INSERT INTO rank (crwal_time, video_name, video_link, video_play_num, video_danmu_num, video_id, author_name, author_link, author_id) VALUES ('''
         sql_insert_2 = self.to_sql_str(item['crwal_time']) + ',' + self.to_sql_str(item['video_name'])\
