@@ -1,6 +1,24 @@
 from scrapy.spiders import Spider
-from bilibili.items import RankItem
+from bilibili_spider.bilibili.items import RankItem
 from datetime import datetime
+from mysql.connector import connect
+
+
+def get_rank_people_url():
+    my_db = connect(
+        host='127.0.0.1', user='root', password='spider123...', db='bilibili_spider'
+    )
+    sql = "select `rank`.author_link link from rank;"
+    try:
+        my_cursor = my_db.cursor()
+        my_cursor.execute(sql)
+        my_cursor.commit()
+        result = my_cursor.fetchall()
+        result = [item[0] for item in result]
+        return result
+    except:
+        print("get rank people link error from MySQL db")
+        return None
 
 
 class BilibiliSpider(Spider):
@@ -9,6 +27,8 @@ class BilibiliSpider(Spider):
     start_urls = [
         "https://www.bilibili.com/ranking/all/0/0/30"
     ]
+    people_url = get_rank_people_url()
+
 
     def parse(self, response, **kwargs):
         ranks = response.css('#app > div.b-page-body > div > div.rank-container > div.rank-body > div.rank-list-wrap >'
