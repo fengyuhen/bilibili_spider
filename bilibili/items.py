@@ -19,3 +19,23 @@ class RankItem(scrapy.Item):
     author_id = scrapy.Field()
     author_link = scrapy.Field()
     pass
+
+
+class UserItem(scrapy.Item):
+    crwal_time = scrapy.Field()
+    user_name = scrapy.Field()
+    user_id = scrapy.Field()
+    user_des = scrapy.Field()
+    follow_num = scrapy.Field()
+    followed_num = scrapy.Field()
+    get_up_num = scrapy.Field()
+    get_play_num = scrapy.Field()
+    get_read_num = scrapy.Field()
+    user_level = scrapy.Field()
+    vip_type = scrapy.Field()
+
+
+class UserRelation(scrapy.Item):
+    user_id = scrapy.Field()
+    relation_user_id = scrapy.Field()
+    relation_type_id = scrapy.Field()
