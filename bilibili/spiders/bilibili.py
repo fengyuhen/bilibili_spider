@@ -1,7 +1,10 @@
 from scrapy.spiders import Spider
-from bilibili.items import RankItem
+from scrapy.selector import Selector
+from bilibili_spider.bilibili.items import RankItem, UserItem
 from datetime import datetime
 from mysql.connector import connect
+from scrapy.http import Request
+from time import sleep
 
 
 def get_rank_people_url():
@@ -24,12 +27,10 @@ class BilibiliSpider(Spider):
     name = "b_spider"
     allowed_domains = ["bilibili.com"]
     people_url = get_rank_people_url()
-    if people_url is not None:
-        pass
-    else:
+    if people_url is None:
         start_urls = "https://www.bilibili.com/ranking/all/0/0/30"
-    people_url = get_rank_people_url()
-
+    else:
+        people_url = get_rank_people_url()
 
     def parse(self, response, **kwargs):
         ranks = response.css('#app > div.b-page-body > div > div.rank-container > div.rank-body > div.rank-list-wrap >'
@@ -59,3 +60,20 @@ class BilibiliSpider(Spider):
 
         return ranks_30_video_info
 
+    def start_requests(self):
+        people_url = get_rank_people_url()
+        people_response = []
+        cnt = 0
+        for item in people_url:
+            people_response.append(Request("https:"+item, callback=self.parse_user))
+            sleep(3)
+            cnt += 1
+            if cnt > 4:
+                break
+        return people_response
+
+    def parse_user(self, response):
+        # 页面提取问题，页面通过JS渲染得到，无法直接获取数据
+        response = Selector(response)
+        label = response.xpath('/html/head/meta[5]/@content').extract()[0]
+        des = response.xpath('/html/head/meta[6]/@content').extract()[0]
