@@ -1,0 +1,9 @@
+{
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en",
+        "User-Agent": "Scrapy/2.3.0 (+https://scrapy.org)"
+    },
+    "lua_source": "\n                                --splash.response_body_enabled = true\n                                splash.private_mode_enabled = false\n                                splash:set_user_agent(\"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36\")\n                                splash:wait(3)\n                                return {html = splash:html()}\n                                \nassert(splash:go(https://space.bilibili.com/129240403\"))",
+    "url": "https://space.bilibili.com/129240403"
+}

@@ -1,0 +1,11 @@
+{
+    "cookies": [],
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en",
+        "User-Agent": "Scrapy/2.3.0 (+https://scrapy.org)"
+    },
+    "lua_source": "\n            function main(splash)\n                local url = splash.args.url\n                assert(splash:go(url))\n                assert(splash:wait(10))\n\n                splash:set_viewport_full()\n\n                local search_input = splash:select('#login-username')   \n                search_input:send_text(\"zhaoyan_1995@163.com\")\n                local search_input = splash:select('#login-passwd')\n                search_input:send_text(\"buzhidao123\")\n                assert(splash:wait(5))\n                local submit_button = splash:select('input[class^=primary-btn]')\n                submit_button:click()\n\n                assert(splash:wait(10))\n\n                return {\n                    html = splash:html(),\n                    png = splash:png(),\n                }\n              end\n            ",
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36",
+    "url": "https://passport.bilibili.com/login"
+}
