@@ -1,18 +1,17 @@
 from scrapy.spiders import Spider
-from bilibili_spider.bilibili.items import RankItem
+from bilibili.items import RankItem
 from datetime import datetime
 from mysql.connector import connect
 
 
 def get_rank_people_url():
     my_db = connect(
-        host='127.0.0.1', user='root', password='spider123...', db='bilibili_spider'
+        host='127.0.0.1', user='spider', password='Spider123...', db='bilibili_spider'
     )
     sql = "select `rank`.author_link link from rank;"
     try:
         my_cursor = my_db.cursor()
         my_cursor.execute(sql)
-        my_cursor.commit()
         result = my_cursor.fetchall()
         result = [item[0] for item in result]
         return result
@@ -24,9 +23,11 @@ def get_rank_people_url():
 class BilibiliSpider(Spider):
     name = "b_spider"
     allowed_domains = ["bilibili.com"]
-    start_urls = [
-        "https://www.bilibili.com/ranking/all/0/0/30"
-    ]
+    people_url = get_rank_people_url()
+    if people_url is not None:
+        pass
+    else:
+        start_urls = "https://www.bilibili.com/ranking/all/0/0/30"
     people_url = get_rank_people_url()
 
 

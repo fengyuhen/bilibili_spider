@@ -13,7 +13,7 @@ class BilibiliPipeline:
 
     def __init__(self):
         self.my_db = connect(
-            host='127.0.0.1', user='root', password='spider123...', db='bilibili_spider'
+            host='127.0.0.1', user='spider', password='Spider123...', db='bilibili_spider'
         )
 
     def process_item(self, item, spider):
