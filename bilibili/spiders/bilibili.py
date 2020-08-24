@@ -75,4 +75,5 @@ class BilibiliSpider(Spider):
     def parse_user(self, response):
         # 页面提取问题，页面通过JS渲染得到，无法直接获取数据
         response = Selector(response)
+        label = response.xpath('/html/head/meta[5]/@content').extract()[0]
         des = response.xpath('/html/head/meta[6]/@content').extract()[0]

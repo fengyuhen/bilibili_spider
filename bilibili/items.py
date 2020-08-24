@@ -26,6 +26,7 @@ class UserItem(scrapy.Item):
     user_name = scrapy.Field()
     user_id = scrapy.Field()
     user_des = scrapy.Field()
+    user_label = scrapy.Field()
     follow_num = scrapy.Field()
     followed_num = scrapy.Field()
     get_up_num = scrapy.Field()
